@@ -71,7 +71,6 @@ INSERT INTO localidad (nombre) VALUES ('Florencio Varela');
 INSERT INTO cliente 
 	(razonSocial, cuit, telefono, domicilio, localidadID)
 	VALUES ('Los Pollos Hnos', 20123456787, '0303456', 'Monserrat 300', 1);
--- SELECT * FROM cliente;
 
 
 /*
@@ -80,7 +79,6 @@ INSERT INTO cliente
 UPDATE cliente
 	SET telefono = '11-2233-4455'
 	WHERE id=1;
--- SELECT * FROM cliente;
 	
 
 /*
@@ -89,8 +87,7 @@ UPDATE cliente
 ALTER TABLE cliente
 	ADD COLUMN eMail VARCHAR(50)
 	AFTER telefono;
--- SELECT * FROM cliente;
-
+	
 
 /*	
 5. Escribir las consultas SQL que devuelvan la siguiente información:
@@ -105,12 +102,11 @@ ALTER TABLE cliente
 INSERT INTO cliente
 	(razonSocial, cuit, telefono, domicilio, localidadID)
 	VALUES ('Bobs Burger', 20282524171, '1170820959', 'Lopez Escribano 1234', 1);
-SELECT * FROM cliente;
+
 -- se volvieron a ejecutar las últimas 2 consultas para ver que ahora se guardan bien los cuits
 
 -- corrigiendo el cliente con nombre repetido y cuit diferente
 DELETE FROM cliente WHERE id = 2;
-SELECT * FROM cliente;
 UPDATE cliente 
 	SET id = 2
 	WHERE id = 3;
@@ -148,7 +144,7 @@ INSERT INTO venta
 INSERT INTO venta
 	(numero, fecha, importeTotal, clienteID, vendedorID)
 	VALUES (188, '20240206', 500, 1, 3);
-SELECT * FROM venta;
+
 
 
 SELECT v.fecha, v.numero, c.razonSocial, v.importeTotal
@@ -187,8 +183,38 @@ SELECT a.nombre, SUM(vd.articuloID) AS cantidadVendida
 
 
 /* c. Los 3 clientes que más compraron en 2023. Mostrar la razonSocial y el teléfono */
+INSERT INTO cliente 
+	(razonSocial, cuit, telefono, domicilio, localidadID)
+	VALUES ('Panadería Lembas', 20371234567, '0303456', 'Monserrat 320', 1);
+INSERT INTO cliente 
+	(razonSocial, cuit, telefono, domicilio, localidadID)
+	VALUES ('El poni pisador', 20381234567, '0303457', 'Monserrat 340', 1);
+INSERT INTO venta
+	(numero, fecha, importeTotal, clienteID, vendedorID)
+	VALUES 
+	(3, '20230608',900, 4, 1),
+	(4, '20230609',700, 5, 1),
+	(5, '20230610',100,2,1);
+
+
+SELECT c.razonSocial, c.telefono -- , SUM(v.importeTotal)
+FROM venta v INNER JOIN cliente c ON v.clienteID = c.id
+WHERE YEAR(v.fecha)='2023'
+GROUP BY v.clienteID 
+ORDER BY SUM(v.importeTotal) DESC
+LIMIT 3;
+
+/*	d.	La comisión que debe cobrar cada vendedor en enero del 2023. 
+		Mostrar el nombre del vendedor y la comisión a cobrar 
+		(considerar que la columna comisión de la tabla vendedor es el porcentaje de 
+		comisión por venta) */
 
 
 
 
+SELECT * FROM venta
+SELECT * FROM cliente
+SELECT * FROM ventadetalle
+SELECT * FROM articulo
+SELECT * FROM vendedor
 	
