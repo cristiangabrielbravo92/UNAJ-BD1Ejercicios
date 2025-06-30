@@ -1,0 +1,21 @@
+CREATE DATABASE sistemaVenta;
+USE sistemaVenta;
+
+create table if not exists cliente(
+    ID int not null AUTO_INCREMENT,
+    nombre varchar(50) not null,
+    apellido varchar(50) not null,
+    cuit int not null unique,
+    primary key(id)
+    );
+
+
+create table pedido(
+    id int not null AUTO_INCREMENT,
+    numero int not null unique, 
+    fecha date not null,
+    importe decimal(15,2) not null,
+    clienteID int not null,
+    primary key(id),
+    foreign key (clienteID) REFERENCES cliente(id)
+    );
