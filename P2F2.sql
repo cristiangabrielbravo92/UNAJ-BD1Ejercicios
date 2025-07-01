@@ -183,12 +183,13 @@ SELECT a.nombre, SUM(vd.articuloID) AS cantidadVendida
 
 
 /* c. Los 3 clientes que más compraron en 2023. Mostrar la razonSocial y el teléfono */
+-- carga de registros en tablas para poder ver algo en la consulta
 INSERT INTO cliente 
 	(razonSocial, cuit, telefono, domicilio, localidadID)
 	VALUES ('Panadería Lembas', 20371234567, '0303456', 'Monserrat 320', 1);
 INSERT INTO cliente 
 	(razonSocial, cuit, telefono, domicilio, localidadID)
-	VALUES ('El poni pisador', 20381234567, '0303457', 'Monserrat 340', 1);
+	VALUES ('El Poni Pisador', 20381234567, '0303457', 'Monserrat 340', 1);
 INSERT INTO venta
 	(numero, fecha, importeTotal, clienteID, vendedorID)
 	VALUES 
@@ -198,23 +199,50 @@ INSERT INTO venta
 
 
 SELECT c.razonSocial, c.telefono -- , SUM(v.importeTotal)
-FROM venta v INNER JOIN cliente c ON v.clienteID = c.id
-WHERE YEAR(v.fecha)='2023'
-GROUP BY v.clienteID 
-ORDER BY SUM(v.importeTotal) DESC
-LIMIT 3;
+	FROM venta v INNER JOIN cliente c ON v.clienteID = c.id
+	WHERE YEAR(v.fecha)='2023'
+	GROUP BY v.clienteID 
+	ORDER BY SUM(v.importeTotal) DESC
+	LIMIT 3;
 
 /*	d.	La comisión que debe cobrar cada vendedor en enero del 2023. 
 		Mostrar el nombre del vendedor y la comisión a cobrar 
 		(considerar que la columna comisión de la tabla vendedor es el porcentaje de 
 		comisión por venta) */
+-- carga de registros en tablas para poder ver algo en la consulta
+INSERT INTO venta
+	(numero, fecha, importeTotal, clienteID, vendedorID)
+	VALUES 
+	(6, '20230108',900, 4, 1),
+	(7, '20230109',700, 5, 2),
+	(8, '20230110',100,2,2),
+	(9, '20230111',100,2,3),
+	(10, '20230111',100,2,3),
+	(11, '20230111',100,2,1);
+
+SELECT SUM((ven.comision/100)*v.importeTotal) AS comision, ven.nombreApellido
+	FROM venta v INNER JOIN vendedor ven ON v.vendedorID = ven.id
+	WHERE YEAR(v.fecha) = '2023' AND MONTH(v.fecha)='01'
+	GROUP BY ven.id;
+
+/* e.	El promedio de importe por venta que tiene cada cliente. 
+		Mostrar razonSocial y promedio. Ordenar por 
+		promedio */
+
+SELECT AVG(v.importeTotal) AS promedioImporte, c.razonSocial
+	FROM venta v INNER JOIN cliente c ON v.clienteID = c.ID 
+	GROUP BY c.ID
+
+-- consulta para verificar si todo dio bien
+SELECT v.fecha, v.importeTotal, c.razonSocial
+	FROM venta v INNER JOIN cliente c ON v.clienteID=c.ID
+	ORDER BY c.ID
 
 
 
-
-SELECT * FROM venta
-SELECT * FROM cliente
-SELECT * FROM ventadetalle
-SELECT * FROM articulo
-SELECT * FROM vendedor
-	
+SELECT * FROM venta;
+SELECT * FROM cliente:
+SELECT * FROM ventadetalle;
+SELECT * FROM articulo;
+SELECT * FROM vendedor;
+SELECT * FROM localidad;
