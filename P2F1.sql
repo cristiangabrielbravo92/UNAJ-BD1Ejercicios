@@ -174,6 +174,27 @@ CREATE TABLE if NOT EXISTS PartidoGoleador (
 	);	
 
 
+-- PENDIENTE: cargar datos de campeonato, equipos, fechas, partidos, etc
+
+-- esta consulta debería funcionar
+SELECT f.numero AS fecha, es.nombre AS estadio, eq.nombre AS equipo, peq.goles AS goles, peq.rol AS rol 
+	FROM campeonato c INNER JOIN fecha f 
+		INNER JOIN partido pa INNER JOIN partidoequipo peq 
+		INNER JOIN equipo eq INNER JOIN estadio es
+		ON c.id = f.campeonatoID && pa.fechaID = f.ID 
+			&& peq.partidoID = pa.ID && es.ID = pa.estadioID
+			&& eq.ID = peq.equipoID		
+	WHERE c.nombre = 'Liga Profesional 2022' && f.numero = 2
+	ORDER BY pa.fechaHora
+
+
+/*		c.	Los 10 jugadores más goleadores del 2022. Mostrar nombre y apellido*/
+
+SELECT 
+	FROM 
+	WHERE 
+	ORDER BY	
+	LIMIT 10
 
 SELECT * FROM posicion;
 SELECT * FROM persona;
