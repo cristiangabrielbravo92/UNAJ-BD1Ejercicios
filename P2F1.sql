@@ -227,6 +227,7 @@ SELECT	e.nombre AS Equipo, per.apellido AS DT
 	ORDER BY SUM(pe.goles) desc
 
 
+/* Consultas para ir chequeando */
 SELECT * FROM posicion;
 SELECT * FROM persona;
 SELECT * FROM estadio;
@@ -238,13 +239,35 @@ SELECT * FROM partido;
 SELECT * FROM partidoEquipo;
 SELECT * FROM partidoGoleador;
 
+/* Consultas sacadas de MySQL workbench para rellenar las tablas*/
+INSERT INTO `campeonato`.`estadio` (`nombre`, `capacidad`) VALUES ('Estadio Único LP', '53000');
+INSERT INTO `campeonato`.`campeonato` (`nombre`, `premio`, `imagenCopa`) VALUES ('Apertura 2022', '500000', './images/imagenApertura.png')
+INSERT INTO `campeonato`.`campeonato` (`nombre`, `premio`, `imagenCopa`) VALUES ('Clausura 2022', '500000', './images/imagenClausura.png')
+INSERT INTO `campeonato`.`campeonato` (`nombre`, `premio`, `imagenCopa`) VALUES ('Apertura 2023', '500000', './images/imagenApertura.png')
 
 
+/* Consultas sacadas de chat gpt para crear datos para ver las consultas anteriores */ 
+INSERT INTO Estadio (nombre, capacidad) VALUES
+('La Bombonera', 54000),
+('Estadio Juan Carmelo Zerillo', 33000),
+('Estadio Monumental', 83000),
+('Estadio Jorge Luis Hirschi', 35000);
 
+INSERT INTO Persona (nombre, apellido, dni) VALUES
+('Jorge', 'Almirón', '30111222'),       -- DT Boca
+('Sebastián', 'Romero', '30222333'),   -- DT Gimnasia
+('Martín', 'Demichelis', '30333444'),  -- DT River
+('Eduardo', 'Domínguez', '30444555');  -- DT Estudiantes
 	
+INSERT INTO Equipo (nombre, estadioID, dtID) VALUES
+('Boca Juniors', 3, 4),
+('Gimnasia de La Plata', 4, 5),
+('River Plate', 5, 6),
+('Estudiantes de La Plata', 6, 7);	
 	
-	
-	
+INSERT INTO Campeonato (nombre, premio, imagenCopa) VALUES
+('Liga Profesional 2022', 1000000, 'copa2022.jpg'),
+('Liga Profesional 2023', 1500000, 'copa2023.jpg');	
 	
 	
 	
