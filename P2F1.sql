@@ -190,11 +190,42 @@ SELECT f.numero AS fecha, es.nombre AS estadio, eq.nombre AS equipo, peq.goles A
 
 /*		c.	Los 10 jugadores más goleadores del 2022. Mostrar nombre y apellido*/
 
-SELECT 
-	FROM 
-	WHERE 
-	ORDER BY	
-	LIMIT 10
+-- PENDIENTE: cargar datos de campeonato, equipos, fechas, partidos, etc
+
+-- esta consulta debería funcionar
+SELECT per.nombre AS nombre, per.apellido AS apellido
+	FROM  partido par INNER JOIN partidogoleador pg INNER JOIN persona per
+			ON pg.partidoID = par.id && pg.goleadorID = per.id
+	WHERE YEAR(par.fechaHora) = '2022' 
+	GROUP BY per.id
+	ORDER BY	COUNT(pg.id) desc
+	LIMIT 10;
+	
+	
+/*		d.	La cantidad de fechas de cada campeonato, 
+			mostrar nombre del campeonato y cantidad de fechas */
+
+-- PENDIENTE: cargar datos de campeonato, equipos, fechas, partidos, etc
+-- esta consulta debería funcionar
+SELECT c.nombre AS nombre, COUNT(f.id) AS cantidadFechas
+	FROM campeonato c INNER JOIN fecha f ON f.campeonatoID = c.id
+	GROUP BY c.id
+	
+
+
+/*		e.	Lista de equipos que hayan hecho más de 15 goles en 2022. 
+			Mostrar el nombre del equipo y apellido del DT, ordenar por cantidad de goles hechos. */
+
+-- PENDIENTE: cargar datos de campeonato, equipos, fechas, partidos, etc
+-- esta consulta debería funcionar
+SELECT	e.nombre AS Equipo, per.apellido AS DT
+	FROM persona per INNER JOIN equipo e INNER JOIN partidoequipo pe INNER JOIN partido p
+			ON pe.equipoID = e.id && pe.partidoID = p.id && e.dtID = per.ID
+	WHERE YEAR(p.fechaHora) = '2022'
+	GROUP BY e.id
+	HAVING SUM(pe.goles) > 15
+	ORDER BY SUM(pe.goles) desc
+
 
 SELECT * FROM posicion;
 SELECT * FROM persona;
